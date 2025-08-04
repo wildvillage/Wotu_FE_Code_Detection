@@ -1,0 +1,64 @@
+---
+apiVersion: v2
+kind: DefaultJob
+id: Wotu_FE_Code_Detection
+name: Wotu_FE_Code_Detection
+description: 沃土前端代码检测
+helpUrl: https://your-git-repo.com/your-step-namespace/Wotu_FE_Code_Detection
+execution:
+  executor: node
+  main: dist/index.js
+items:
+  - label: 构建命令
+    name: user_script
+    type: shell
+    value: "npm i -g pnpm@8.15.4 && pnpm i"
+    description: 构建命令为用户自定义构建命令。
+
+  - label: 是否开启ESLint检测
+    name: enable_eslint_check
+    type: checkbox
+    value: true
+    description: 开启后对代码进行ESLint检测，关闭后不进行ESLint检测，相关配置无效
+
+  - label: 是否开启TypeScript检测
+    name: enable_typescript_check
+    type: checkbox
+    value: true
+    description: 开启后对代码进行TypeScript类型检测，关闭后不进行TypeScript检测
+
+  - label: 环境分支部署模式
+    name: env_branch_deploy_mode
+    type: checkbox
+    value: false
+    description: 通过指定的部署分支发布对应环境的模式。若通过个人开发分支部署请勿勾选。
+
+  - label: 检测分支
+    name: source_branch
+    type: input
+    value: "*"
+    description: "* 表示当前分支，否则指定要检测的分支名"
+
+  - label: 目标分支
+    name: target_branch
+    type: input
+    value: "master"
+    description: 用于增量检测时的对比基准分支
+
+  - label: 是否全量ESLint检测
+    name: full_check_mode
+    type: checkbox
+    value: false
+    description: 默认增量ESLint检测（只检测变更文件），勾选后进行全量ESLint检测
+
+  - label: 是否全量TypeScript检测
+    name: full_typescript_check_mode
+    type: checkbox
+    value: true
+    description: 默认全量TypeScript检测，取消勾选后进行增量TypeScript检测（增量检查识别率较差，容易导致误诊，谨慎开启）
+
+  - label: 检查目录
+    name: check_directories
+    type: textarea
+    value: "src"
+    description: 指定需要检查的文件夹，多个目录用换行分隔。默认只检查src目录。例如：src\components\utils
