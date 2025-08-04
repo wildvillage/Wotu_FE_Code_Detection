@@ -31,6 +31,8 @@
 
 ## 配置说明
 
+使用和接入文档[沃土前端CI静态代码检查工具接入文档](https://alidocs.dingtalk.com/i/nodes/G1DKw2zgV2R02zxKFQgK0xXGVB5r9YAn)
+
 ### 基础配置
 - **构建命令**: 自定义构建脚本，默认使用 pnpm 安装依赖
 - **检查目录**: 指定需要检查的文件夹，支持多目录配置
@@ -70,6 +72,11 @@ npm run build
 ### 本地运行
 ```bash
 node dist/index.js
+```
+
+### 发布
+```bash
+npm run publish
 ```
 
 ## 项目结构
@@ -112,10 +119,6 @@ node dist/index.js
 - Git 版本控制
 - ESLint 配置文件 (.eslintrc.json)
 - TypeScript 配置文件 (tsconfig.json)
-
-## 版本信息
-
-当前版本: v1.0.16
 
 ## 支持与反馈
 
