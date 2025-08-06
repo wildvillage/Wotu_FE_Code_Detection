@@ -3,4 +3,3 @@ lib
 dist
 coverage-ts
 typescript-coverage-report.config.json
-package-lock.json
