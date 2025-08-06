@@ -62,3 +62,15 @@ items:
     type: textarea
     value: "src"
     description: 指定需要检查的文件夹，多个目录用换行分隔。默认只检查src目录。例如：src\components\utils
+
+  - label: 是否开启TS覆盖率报告
+    name: enable_typescript_coverage_report
+    type: checkbox
+    value: false
+    description: 开启后对代码进行TS覆盖率报告，关闭后不进行TS覆盖率报告，相关配置无效。
+
+  - label: TS覆盖率报告阈值
+    name: typescript_coverage_threshold
+    type: input
+    value: "90"
+    description: TS覆盖率报告阈值，默认90%。

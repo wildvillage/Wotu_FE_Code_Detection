@@ -4,6 +4,38 @@ import * as step from '@flow-step/step-toolkit';
 import { execa } from 'execa';
 
 /**
+ * 包管理器类型
+ */
+export type PackageManager = 'npm' | 'yarn' | 'pnpm';
+
+/**
+ * 检测项目包管理器类型 | Detect project package manager type
+ */
+export function detectPackageManager(projectDir: string): PackageManager {
+  if (fs.existsSync(path.join(projectDir, 'pnpm-lock.yaml'))) {
+    return 'pnpm';
+  }
+  if (fs.existsSync(path.join(projectDir, 'yarn.lock'))) {
+    return 'yarn';
+  }
+  return 'npm';
+}
+
+/**
+ * 获取包管理器安装命令 | Get package manager install command
+ */
+export function getInstallCommand(packageManager: PackageManager, packages: string[]): string[] {
+  switch (packageManager) {
+    case 'pnpm':
+      return ['pnpm', 'add', '-D', ...packages];
+    case 'yarn':
+      return ['yarn', 'add', '-D', ...packages];
+    default:
+      return ['npm', 'install', '--save-dev', ...packages];
+  }
+}
+
+/**
  * 执行用户自定义构建脚本
  */
 export async function runUserScript(
@@ -55,18 +87,14 @@ export async function installDependencies(
     throw new Error('未找到 package.json 文件');
   }
 
-  // 检查是否存在 package-lock.json 或 yarn.lock
-  const hasPackageLock = fs.existsSync(
-    path.join(projectDir, 'package-lock.json')
-  );
-  const hasYarnLock = fs.existsSync(path.join(projectDir, 'yarn.lock'));
-  const hasPnpmLock = fs.existsSync(path.join(projectDir, 'pnpm-lock.yaml'));
-
+  // 使用统一的包管理器检测逻辑
+  const packageManager = detectPackageManager(projectDir);
+  
   let installCommand: string;
-  if (hasPnpmLock) {
+  if (packageManager === 'pnpm') {
     installCommand = 'pnpm install';
     step.info('检测到 pnpm-lock.yaml，使用 pnpm 安装依赖');
-  } else if (hasYarnLock) {
+  } else if (packageManager === 'yarn') {
     installCommand = 'yarn install';
     step.info('检测到 yarn.lock，使用 yarn 安装依赖');
   } else {

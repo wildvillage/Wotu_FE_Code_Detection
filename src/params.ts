@@ -23,6 +23,9 @@ export class IParams {
   // CI 相关环境变量
   ciCommitRefName?: string;
   gitBranch?: string;
+  // TypeScript 覆盖率相关环境变量
+  enableTypeScriptCoverageReport?: string;
+  typeScriptCoverageThreshold?: string;
 }
 
 export function getParams(): IParams {
@@ -56,6 +59,10 @@ export function getParams(): IParams {
   // CI 相关环境变量
   params.ciCommitRefName = process.env.CI_COMMIT_REF_NAME;
   params.gitBranch = process.env.GIT_BRANCH;
+  
+  // TypeScript 覆盖率相关环境变量
+  params.enableTypeScriptCoverageReport = process.env.enable_typescript_coverage_report;
+  params.typeScriptCoverageThreshold = process.env.typescript_coverage_threshold;
   
   return params;
 }
